@@ -2,7 +2,7 @@
 
 namespace FM\BbcodeBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,8 +12,19 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2013 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-class DumpEmoticonsCommand extends ContainerAwareCommand
+class DumpEmoticonsCommand extends Command
 {
+    private $writeTo;
+    private $emotionPath;
+    private $emotionFolder;
+
+    public function __construct(string $writeTo, string $emotionPath, string $emotionFolder)
+    {
+        $this->writeTo = $writeTo;
+        $this->emotionPath = $emotionPath;
+        $this->emotionFolder = $emotionFolder;
+    }
+
     /**
      * @see Command
      */
@@ -56,15 +67,12 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $webFolder = sprintf('%s%s',
-            $this->getContainer()->getParameter('assetic.write_to'),
-            $this->getContainer()->getParameter('fm_bbcode.emoticon.path')
-        );
+        $webFolder = sprintf('%s%s', $this->writeTo, $this->emotionPath);
         @mkdir($webFolder);
 
         $emoticonsFolder = $input->getOption('emoticons-folder');
         if (!$emoticonsFolder) {
-            $emoticonsFolder = $this->getContainer()->getParameter('fm_bbcode.emoticon.folder');
+            $emoticonsFolder = $this->emotionFolder;
         }
 
         if (!file_exists($emoticonsFolder) && !is_dir($emoticonsFolder)) {
