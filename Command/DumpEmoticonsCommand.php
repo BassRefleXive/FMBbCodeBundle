@@ -14,13 +14,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DumpEmoticonsCommand extends Command
 {
-    private $writeTo;
     private $emotionPath;
     private $emotionFolder;
 
-    public function __construct(string $writeTo, string $emotionPath, string $emotionFolder)
+    public function __construct(string $emotionPath, string $emotionFolder)
     {
-        $this->writeTo = $writeTo;
         $this->emotionPath = $emotionPath;
         $this->emotionFolder = $emotionFolder;
     }
@@ -67,7 +65,7 @@ class DumpEmoticonsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $webFolder = sprintf('%s%s', $this->writeTo, $this->emotionPath);
+        $webFolder = sprintf('%s%s', $this->emotionPath);
         @mkdir($webFolder);
 
         $emoticonsFolder = $input->getOption('emoticons-folder');

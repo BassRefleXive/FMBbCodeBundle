@@ -32,7 +32,6 @@
         </service>
 
         <service id="fm_bbcode.command.dump_emotions" class="FM\BbcodeBundle\Command\DumpEmoticonsCommand">
-            <argument>%assetic.write_to%</argument>
             <argument>%fm_bbcode.emoticon.path%</argument>
             <argument>%fm_bbcode.emoticon.folder%</argument>
 
